@@ -7,7 +7,7 @@ import math
 # Initialize all the pygame modules
 pygame.init()
 
-width, height = 800, 800
+width, height = 400, 400
 size = width, height
 
 # Set display mode
@@ -34,6 +34,7 @@ sf = 1 / 13926800     # scaling factor: scale from meters to pixels
 
 # BALL
 v = 40                      # speed: pixels per second
+w = 0                       # speed: pixels per second
 x = 100                     # x position, center of circle
 y = 100                     # y position, center of circle
 radius = 20
@@ -44,15 +45,15 @@ softening = 0.0000001
 
 # The Sun
 sun_radius = 5
-sun_x, sun_y = 400, 400 # temporary assignment for testing
+sun_x, sun_y = 200, 200 # temporary assignment for testing
 #sun_x, sun_y = width // 2, height // 2  # center sun on screen, uses floor division to round down
 sun_mass = 1.989e30
 
 # Venus
 venus_radius = 2
 venus_mass = 4.87e24
-venus_x, venus_y = sun_x, sun_y - 35            # x, y coordinates
-venus_vx, venus_vy = 8500000000000, 0           # velocities
+venus_x, venus_y = sun_x, sun_y - 80            # x, y coordinates
+venus_vx, venus_vy = 4500000000000, 0           # velocities
 venus_ax, venus_ay = 0, 1000000                 # accelerations
 
 # Earth
@@ -86,13 +87,18 @@ while running:
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_RIGHT:
             v += 5    
-        elif event.key == pygame.K_LEFT:
+        if event.key == pygame.K_LEFT:
             v -= 5
+        if event.key == pygame.K_DOWN:
+            w += 5    
+        elif event.key == pygame.K_UP:
+            w -= 5    
 
     screen.fill(BLACK)  # blank screen prior to redraw
 
     # Draw ball
     x += v / fps    # New x-position iterated (pixels)  
+    y += w / fps    # New x-position iterated (pixels)  
     pygame.draw.circle(screen, RED, (x, y), radius, width)  # Draw object in memory
 
     # Draw sun
